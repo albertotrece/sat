@@ -63,7 +63,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <TITLE>Validacion de documentos electronicos (XML) CFD/CFDI/Retenciones</TITLE>
-<link rel="STYLESHEET" href="../fortiz.css" media="screen" type="text/css">
+<link rel="STYLESHEET" href="/fortiz/fortiz.css" media="screen" type="text/css">
 <?php
 // Es solo para llevar mi estadistica en Google Analytics, ustedes quitenlo ...
 @include("urchin/corona.html");
@@ -531,40 +531,22 @@ echo "<hr>";
 // ftp://ftp2.sat.gob.mx/asistencia_servicio_ftp/publicaciones/cfdi/WS_ConsultaCFDI.pdf
 function valida_en_sat() {
     global $data;
-    error_reporting(E_ALL);
-    require_once('nusoap/nusoap.php');
     error_reporting(E_ALL & ~(E_STRICT|E_NOTICE|E_WARNING|E_DEPRECATED));
     $url = "https://consultaqr.facturaelectronica.sat.gob.mx/consultacfdiservice.svc?wsdl";
-
-    $soapclient = new nusoap_client($url,$esWSDL=true);
-    $soapclient->soap_defencoding = 'UTF-8'; 
-    $soapclient->decode_utf8 = false;
-
+    $soapclient = new SoapClient($url);
     $rfc_emisor = utf8_encode($data['rfc']);
     $rfc_receptor = utf8_encode($data['rfc_receptor']);
     $impo = (double)$data['total'];
     $impo=sprintf("%.6f", $impo);
     $impo = str_pad($impo,17,"0",STR_PAD_LEFT);
-
     $uuid = strtoupper($data['uuid']);
-
     $factura = "?re=$rfc_emisor&rr=$rfc_receptor&tt=$impo&id=$uuid";
-
     echo "<h3>$factura</h3>";
     $prm = array('expresionImpresa'=>$factura);
-
-    $buscar=$soapclient->call('Consulta',$prm);
-
+    $buscar=$soapclient->Consulta($prm);
     echo "<h3>El portal del SAT reporta</h3>";
-    // echo "QR=$factura<br>";
-    // echo "<pre>";
-    // echo htmlspecialchars($soapclient->getdebug());
-    // echo "<br>";
-    // echo htmlspecialchars($soapclient->request);
-    // echo "<br>";
-    // echo "</pre>";
-    echo "El codigo: ".$buscar['ConsultaResult']['CodigoEstatus']."<br>";
-    echo "El estado: ".$buscar['ConsultaResult']['Estado']."<br>";
+    echo "El codigo: ".$buscar->ConsultaResult->CodigoEstatus."<br>";
+    echo "El estado: ".$buscar->ConsultaResult->Estado."<br>";
 
 }
 // }}}
