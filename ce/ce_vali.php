@@ -41,7 +41,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <TITLE>Validacion de Contabilidad Electronica</TITLE>
-<link rel="STYLESHEET" href="/fortiz/fortiz.css" media="screen" type="text/css">
+<link rel="STYLESHEET" href="../fortiz.css" media="screen" type="text/css">
 <?php
 // Es solo para llevar mi estadistica en Google Analytics, ustedes quitenlo ...
 @include("urchin/corona.html");
