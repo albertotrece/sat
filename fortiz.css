@@ -1,0 +1,40 @@
+BODY {color:#000000; background-color:#f3f8ea}
+
+TABLE {background-color:#013440}
+
+H3.error {background-color:red; color:white}
+
+TH {background-color:#20a020; color:#f3f8ea}
+TH.en {background-color:#80f0c0; color:#f3d8ca}
+TH.es {background-color:#20a020; color:#f3d8ca}
+TH.error {background-color:red; color:white}
+
+TD {background-color:#f3f8ea; color:#000000}
+TD.es {background-color:#f3f8ea; color:#00008c}
+TD.en {background-color:#f0ffd0; color:#00008c}
+TD.error {background-color:red; color:white}
+TD.user {background-color:blue; color:white}
+
+TR {background-color:white}
+TR.alt {background-color:black; color:white}
+
+HR {color:#b0c4de}
+
+.hl-main {font-family: monospace; font-size:13px; background-color:white; }
+.hl-gutter { background-color: #CCCCCC; padding-right: 10px; font-family: monospace; font-size:13px;}
+.hl-table {border: solid 1px #000000; }
+
+.hl-default { color: #000000; }
+.hl-code { color: #7f7f33; }
+.hl-brackets { color: #009966; }
+.hl-comment { color: #7F7F7F; }
+.hl-quotes { color: #00007F; }
+.hl-string { color: #7F0000; }
+.hl-identifier { color: #000000; }
+.hl-reserved { color: #7F007F; }
+.hl-inlinedoc { color: #0000FF; }
+.hl-var { color: #0066FF; }
+.hl-url { color: #FF0000; }
+.hl-special { color: #0000FF; }
+.hl-number { color: #007F00; }
+.hl-inlinetags { color: #FF0000; }
