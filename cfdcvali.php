@@ -53,6 +53,8 @@
 // | 30/ene/15 Nueva URL para descarga de certificados del SAT (Rene Calderon) |
 // |           https://rdc.sat.gob.mx/rccf/$p1/$p2/$p3/$p4/$p5/$no_cert.cer    |
 // |                                                                           |
+// | 17/mar/15 Nueva estructura de directorio para repositorio GIT             |
+// |               xsd / xslt                                                  |
 // +---------------------------------------------------------------------------+
 //
 ?>
@@ -284,7 +286,7 @@ if ($data['tipo']=="retenciones") {
     switch ($data['version']) {
       case "1.0":
         echo "Version 1.0 Retenciones<br>";
-        $ok = $xml->schemaValidate("retencionpagov1.xsd");
+        $ok = $xml->schemaValidate("xsd/retencionpagov1.xsd");
         break;
       default:
         $ok = false;
@@ -294,19 +296,19 @@ if ($data['tipo']=="retenciones") {
     switch ($data['version']) {
       case "2.0":
         echo "Version 2.0 CFD<br>";
-        $ok = $xml->schemaValidate("cfdv2complemento.xsd");
+        $ok = $xml->schemaValidate("xsd/cfdv2complemento.xsd");
         break;
       case "2.2":
         echo "Version 2.2 CFD<br>";
-        $ok = $xml->schemaValidate("cfdv22complemento.xsd");
+        $ok = $xml->schemaValidate("xsd/cfdv22complemento.xsd");
         break;
       case "3.0":
         echo "Version 3.0 (CFDI)<br>";
-        $ok = $xml->schemaValidate("cfdv3complemento.xsd");
+        $ok = $xml->schemaValidate("xsd/cfdv3complemento.xsd");
         break;
       case "3.2":
         echo "Version 3.2 CFDI<br>";
-        $ok = $xml->schemaValidate("cfdv32.xsd");
+        $ok = $xml->schemaValidate("xsd/cfdv32.xsd");
         break;
       default:
         $ok = false;
@@ -355,7 +357,7 @@ $xsl = new DOMDocument;
 if ($data['tipo']=="retenciones") {
     switch ($data['version']) {
       case "1.0":
-          $xsl->load('retenciones.xslt');
+          $xsl->load('xslt/retenciones.xslt');
           $algo =OPENSSL_ALGO_SHA1;
           break;
       default:
@@ -365,7 +367,7 @@ if ($data['tipo']=="retenciones") {
 } else {
     switch ($data['version']) {
       case "2.0":
-          $xsl->load('cadenaoriginal_2_0.xslt');
+          $xsl->load('xslt/cadenaoriginal_2_0.xslt');
           if (substr($data['fecha'],0,4)<2011) {
               echo "md5 \n";
               $algo = OPENSSL_ALGO_MD5;
@@ -376,12 +378,12 @@ if ($data['tipo']=="retenciones") {
           break;
       case "2.2":
           echo "2.2\n";
-          $xsl->load('cadenaoriginal_2_2.xslt');
+          $xsl->load('xslt/cadenaoriginal_2_2.xslt');
           echo "sha1 \n";
           $algo = OPENSSL_ALGO_SHA1;
           break;
       case "3.0":
-          $xsl->load('cadenaoriginal_3_0.xslt');
+          $xsl->load('xslt/cadenaoriginal_3_0.xslt');
           if (substr($data['fecha'],0,4)<2011) {
               echo "md5 \n";
               $algo = OPENSSL_ALGO_MD5;
@@ -392,7 +394,7 @@ if ($data['tipo']=="retenciones") {
           break;
       case "3.2":
           echo "3.2\n";
-          $xsl->load('cadenaoriginal_3_2.xslt');
+          $xsl->load('xslt/cadenaoriginal_3_2.xslt');
           echo "sha1 \n";
           $algo = OPENSSL_ALGO_SHA1;
           break;
@@ -494,7 +496,7 @@ $xml_tfd = new DOMDocument();
 $ok = $xml_tfd->loadXML($texto_tfd);
 
 $xsl = new DOMDocument;
-$xsl->load('cadenaoriginal_TFD_1_0.xslt');
+$xsl->load('xslt/cadenaoriginal_TFD_1_0.xslt');
 $proc = new XSLTProcessor;
 $proc->importStyleSheet($xsl); 
 
