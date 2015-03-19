@@ -22,54 +22,54 @@ Archive:  Cert_Prod.zip
   inflating: Cert_Prod/ARC1_IES.cer  
   inflating: Cert_Prod/ARC2_IES.crt  
   inflating: Cert_Prod/ARC3_IES.crt  
-[dev@www raiz]$ mv Cert_Prod/*.cer .
-[dev@www raiz]$ mv Cert_Prod/*.crt .
-[dev@www raiz]$ rmdir Cert_Prod     
+$ mv Cert_Prod/*.cer       .
+$ mv Cert_Prod/*.crt       .
+$ rmdir Cert_Prod           
 
 El problema es que algunos certificados los dan en PEM y otros en DER
 
-[dev@www raiz]$ file *
-AC0_SAT.cer:   data
-AC1_SAT.cer:   ASCII text
-AC2_SAT.cer:   data
-AC3_SAT.cer:   data
-ARC0_IES.cer:  data
-ARC1_IES.cer:  data
-ARC2_IES.crt:  ASCII text
-ARC3_IES.crt:  ASCII text
-Cert_Prod.zip: Zip archive data, at least v2.0 to extract
-README.md:     ASCII text
+[dev@www raiz]$ file *         
+AC0_SAT.cer:   data         
+AC1_SAT.cer:   ASCII text         
+AC2_SAT.cer:   data         
+AC3_SAT.cer:   data         
+ARC0_IES.cer:  data         
+ARC1_IES.cer:  data         
+ARC2_IES.crt:  ASCII text         
+ARC3_IES.crt:  ASCII text         
+Cert_Prod.zip: Zip archive data, at least v2.0 to extract    
+README.md:     ASCII text    
 
 Asi que primero renombramos todos los 'ASCII TEXT' que son PEM a su extension.
 
-[dev@www raiz]$ mv AC1_SAT.cer AC1_SAT.cer.pem
-[dev@www raiz]$ mv ARC2_IES.crt ARC2_IES.cer.pem
-[dev@www raiz]$ mv ARC3_IES.crt ARC3_IES.cer.pem
+$ mv AC1_SAT.cer AC1_SAT.cer.pem    
+$ mv ARC2_IES.crt ARC2_IES.cer.pem    
+$ mv ARC3_IES.crt ARC3_IES.cer.pem    
 
-Y despues convertimos todos los .cer a .cer.pem con un for ....
+Y despues convertimos todos los .cer a .cer.pem con un for ....    
 
-[dev@www raiz]$ for f in *.cer
-> do
->     openssl x509 -in $f -inform der -out $f.pem
-> done
+[dev@www raiz]$ for f in *.cer    
+> do    
+>     openssl x509 -in $f -inform der -out $f.pem    
+> done    
 
 Y borramos los viejos archivos DER
 
-[dev@www raiz]$ rm *.cer
+$ rm *.cer    
 
 Ahora si ya todos los certificados son PEM con extension .cer.pem
 
 [dev@www raiz]$ file *
-AC0_SAT.cer.pem:  ASCII text
-AC1_SAT.cer.pem:  ASCII text
-AC2_SAT.cer.pem:  ASCII text
-AC3_SAT.cer.pem:  ASCII text
-ARC0_IES.cer.pem: ASCII text
-ARC1_IES.cer.pem: ASCII text
-ARC2_IES.cer.pem: ASCII text
-ARC3_IES.cer.pem: ASCII text
-Cert_Prod.zip:    Zip archive data, at least v2.0 to extract
-README.md:        ASCII text
+AC0_SAT.cer.pem:  ASCII text        
+AC1_SAT.cer.pem:  ASCII text        
+AC2_SAT.cer.pem:  ASCII text        
+AC3_SAT.cer.pem:  ASCII text        
+ARC0_IES.cer.pem: ASCII text        
+ARC1_IES.cer.pem: ASCII text        
+ARC2_IES.cer.pem: ASCII text        
+ARC3_IES.cer.pem: ASCII text        
+Cert_Prod.zip:    Zip archive data, at least v2.0 to extract        
+README.md:        ASCII text        
 
 Transcribo la primera parte del manual de la funcion 'verify' del openssl
 
