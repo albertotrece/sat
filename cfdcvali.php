@@ -55,6 +55,9 @@
 // |                                                                           |
 // | 17/mar/15 Nueva estructura de directorio para repositorio GIT             |
 // |               xsd / xslt                                                  |
+// |                                                                           |
+// | 19/mar/15 Valida autorizad certificadora, para comprobar certificado      |
+// |           sea emitido por el SAT                                          |
 // +---------------------------------------------------------------------------+
 //
 ?>
@@ -247,7 +250,7 @@ if (trim($rowcsd['rfc'])==$data['rfc'] &&
     if (strlen($data['rfc'])==13) {
         echo "<h3><font color=orange>CSD no encontrado, pero puede ser FIEL ....</font></h3>";
     } else { 
-        echo "<h3>Certificado no autorizado</h3>";
+        echo "<h3>Certificado no autorizado en CSD.txt</h3>";
     }
 }
 echo "<hr>";
@@ -452,6 +455,7 @@ if (!$pubkeyid) {
     $pubkeyid = openssl_get_publickey(openssl_x509_read($cert));
 
 }
+valida_ca($pubkeyid);
 $ok = openssl_verify($cadena, 
                      base64_decode($data['sell']), 
                      $pubkeyid, 
@@ -471,6 +475,17 @@ if ($serial!=$data['no_cert']) {
     echo "Serie reportada ".$data['no_cert']." serie usada $serial<br>";
 }
 
+}
+// }}} Valida Sello
+// {{{ Valida CA (Autoridad Certificadora)
+function valida_ca($pubkeyid) {
+    $ca = array(__DIR__."/raiz/");
+    $ok = openssl_x509_checkpurpose($pubkeyid, X509_PURPOSE_ANY, $ca);
+    if ($ok) {
+        echo "<h3>Certificado emitido por el SAT</h3>";
+    } else {
+        echo "<h3>Certificado apocrifo, No es del SAT</h3>";
+    }
 }
 // }}} Valida Sello
 // {{{ Valida Sello TFD
