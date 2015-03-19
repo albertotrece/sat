@@ -1,4 +1,4 @@
-Certificados Raiz de la autoridad certificadora
+#Certificados Raiz de la autoridad certificadora
 
 Sirven para validar que el certificado proporcionado fue emitido por el SAT
 
@@ -30,6 +30,7 @@ $ rmdir Cert_Prod
 
 El problema es que algunos certificados los dan en PEM y otros en DER
 
+```
 [dev@www raiz]$ file *         
 AC0_SAT.cer:   data         
 AC1_SAT.cer:   ASCII text         
@@ -41,12 +42,15 @@ ARC2_IES.crt:  ASCII text
 ARC3_IES.crt:  ASCII text         
 Cert_Prod.zip: Zip archive data, at least v2.0 to extract    
 README.md:     ASCII text    
+```
 
 Asi que primero renombramos todos los 'ASCII TEXT' que son PEM a su extension.
 
+```
 $ mv AC1_SAT.cer AC1_SAT.cer.pem    
 $ mv ARC2_IES.crt ARC2_IES.cer.pem    
 $ mv ARC3_IES.crt ARC3_IES.cer.pem    
+```
 
 Y despues convertimos todos los .cer a .cer.pem con un for ....    
 
@@ -59,7 +63,9 @@ Y despues convertimos todos los .cer a .cer.pem con un for ....
 
 Y borramos los viejos archivos DER
 
-$ rm *.cer    
+```
+$ rm *.cer   
+```
 
 Ahora si ya todos los certificados son PEM con extension .cer.pem
 
@@ -107,7 +113,7 @@ Asi que buscamos ese comando c_rehash en centos linux y se llama ....
 ```
 [dev@www raiz]$ locate rehash  
 /usr/sbin/cacertdir_rehash
-````
+```
 
 Veamos los hashes de los certificdos
 
@@ -139,7 +145,7 @@ Ese comando hay que ejecutarlo como root
 
 ```
 # cacertdir_rehash .
-````
+```
 
 Y veamos como queda despues de ejecutar el comando
 
@@ -163,7 +169,7 @@ lrwxrwxrwx 1 root root    15 Mar 19 07:45 95ba44db.0 -> AC3_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 bf9ec309.0 -> ARC1_IES.cer.pem
 lrwxrwxrwx 1 root root    15 Mar 19 07:45 d2001d98.0 -> AC0_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 d34dcb52.0 -> ARC0_IES.cer.pem
-````
+```
 
 Ahora ya se puede ejecutar una validacion
 
