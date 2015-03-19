@@ -12,6 +12,7 @@ http://www.sat.gob.mx/informacion_fiscal/factura_electronica/Documents/solcedi/C
 
 Procedimiento para procesarlos
 
+```
 [dev@www raiz]$ unzip Cert_Prod.zip 
 Archive:  Cert_Prod.zip
   inflating: Cert_Prod/AC0_SAT.cer   
@@ -24,7 +25,8 @@ Archive:  Cert_Prod.zip
   inflating: Cert_Prod/ARC3_IES.crt  
 $ mv Cert_Prod/*.cer       .
 $ mv Cert_Prod/*.crt       .
-$ rmdir Cert_Prod           
+$ rmdir Cert_Prod      
+```
 
 El problema es que algunos certificados los dan en PEM y otros en DER
 
@@ -48,10 +50,12 @@ $ mv ARC3_IES.crt ARC3_IES.cer.pem
 
 Y despues convertimos todos los .cer a .cer.pem con un for ....    
 
+```
 [dev@www raiz]$ for f in *.cer    
 > do    
 >     openssl x509 -in $f -inform der -out $f.pem    
 > done    
+```
 
 Y borramos los viejos archivos DER
 
@@ -59,6 +63,7 @@ $ rm *.cer
 
 Ahora si ya todos los certificados son PEM con extension .cer.pem
 
+```
 [dev@www raiz]$ file *
 AC0_SAT.cer.pem:  ASCII text        
 AC1_SAT.cer.pem:  ASCII text        
@@ -70,10 +75,11 @@ ARC2_IES.cer.pem: ASCII text
 ARC3_IES.cer.pem: ASCII text        
 Cert_Prod.zip:    Zip archive data, at least v2.0 to extract        
 README.md:        ASCII text        
+```
 
 Transcribo la primera parte del manual de la funcion 'verify' del openssl
 
-<quote>
+```
 VERIFY(1)                           OpenSSL                          VERIFY(1)
 
 NAME
@@ -94,15 +100,18 @@ COMMAND OPTIONS
            form ("hash" is the hashed certificate subject name: see the -hash
            option of the x509 utility). Under Unix the c_rehash script will
            automatically create symbolic links to a directory of certificates.
-</quote>
+```
 
 Asi que buscamos ese comando c_rehash en centos linux y se llama ....
 
+```
 [dev@www raiz]$ locate rehash  
 /usr/sbin/cacertdir_rehash
+````
 
 Veamos los hashes de los certificdos
 
+```
 [dev@www raiz]$ for f in *pem
 > do
 > echo $f
@@ -124,13 +133,17 @@ ARC2_IES.cer.pem
 7e57939d
 ARC3_IES.cer.pem
 7e57939d
+```
 
 Ese comando hay que ejecutarlo como root
 
+```
 # cacertdir_rehash .
+````
 
 Y veamos como queda despues de ejecutar el comando
 
+```
 [root@www raiz]# ll
 total 48
 lrwxrwxrwx 1 root root    15 Mar 19 07:45 1cac10c1.0 -> AC2_SAT.cer.pem
@@ -150,10 +163,13 @@ lrwxrwxrwx 1 root root    15 Mar 19 07:45 95ba44db.0 -> AC3_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 bf9ec309.0 -> ARC1_IES.cer.pem
 lrwxrwxrwx 1 root root    15 Mar 19 07:45 d2001d98.0 -> AC0_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 d34dcb52.0 -> ARC0_IES.cer.pem
+````
 
 Ahora ya se puede ejecutar una validacion
 
+```
 $ openssl verify -verbose -CApath raiz/ /home/httpd/sat/00001000000201135463.cer.pem      
 /home/httpd/sat/00001000000201135463.cer.pem: OK
+```
 
 
