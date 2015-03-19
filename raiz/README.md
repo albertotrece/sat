@@ -171,11 +171,25 @@ lrwxrwxrwx 1 root root    15 Mar 19 07:45 d2001d98.0 -> AC0_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 d34dcb52.0 -> ARC0_IES.cer.pem
 ```
 
-Ahora ya se puede ejecutar una validacion
+Ahora ya se puede ejecutar una validacion por linea de comando
 
 ```
 $ openssl verify -verbose -CApath raiz/ /home/httpd/sat/00001000000201135463.cer.pem      
 /home/httpd/sat/00001000000201135463.cer.pem: OK
 ```
 
+ o por PHP
+
+```PHP
+function valida_ca($rfc) {
+    $ca = array(__DIR__."/raiz/");
+    $ok = openssl_x509_checkpurpose($this->cer_pem, X509_PURPOSE_ANY, $ca);
+    if (!$ok) {
+        $this->status = "Certificado no es del SAT";
+        $this->codigo = "308 Certificado no es del SAT";
+        return false;
+    }
+    return true;
+}
+```
 
