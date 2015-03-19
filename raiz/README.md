@@ -1,4 +1,4 @@
-Certificados Raiz de la autorizad certificadora
+Certificados Raiz de la autoridad certificadora
 
 Sirven para validar que el certificado proporcionado fue emitido por el SAT
 
@@ -150,3 +150,10 @@ lrwxrwxrwx 1 root root    15 Mar 19 07:45 95ba44db.0 -> AC3_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 bf9ec309.0 -> ARC1_IES.cer.pem
 lrwxrwxrwx 1 root root    15 Mar 19 07:45 d2001d98.0 -> AC0_SAT.cer.pem
 lrwxrwxrwx 1 root root    16 Mar 19 07:45 d34dcb52.0 -> ARC0_IES.cer.pem
+
+Ahora ya se puede ejecutar una validacion
+
+$ openssl verify -verbose -CApath raiz/ /home/httpd/sat/00001000000201135463.cer.pem      
+/home/httpd/sat/00001000000201135463.cer.pem: OK
+
+
